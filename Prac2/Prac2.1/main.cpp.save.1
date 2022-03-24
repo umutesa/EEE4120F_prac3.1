@@ -1,4 +1,4 @@
-#define CL_TARGET_OPENCL_VERSION 300
+//Author: Christopher Hill For the EEE4120F course at UCT
 #include<stdio.h>
 #include<CL/cl.h>
 
@@ -63,13 +63,11 @@ int main(void)
 	cl_device_id device; //this is your deviceID
 	cl_int err;
 	
-	
 	/* Access a device */
 	//The if statement checks to see if the chosen platform uses a GPU, if not it setups the device using the CPU
 	//TODO code 2: select your device
 
         err = clGetDeviceIDs(platform , CL_DEVICE_TYPE_GPU , 1 , &device , NULL);
-	printf("device ID= %i\n", err);
 	
 
 	//------------------------------------------------------------------------

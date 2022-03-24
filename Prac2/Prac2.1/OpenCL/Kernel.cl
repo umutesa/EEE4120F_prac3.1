@@ -1,5 +1,5 @@
 __kernel void HelloWorld(__global int* argument1, __global int* argument2, __global int* output){
-	//work item and work groups numbers
+	//work item and work groups numbers	
 	int workItemNum = get_global_id(0); //Work item ID
 	int workGroupNum = get_group_id(0); //Work group ID
 	int localGroupID = get_local_id(0); //Work items ID within each work group
@@ -11,9 +11,17 @@ __kernel void HelloWorld(__global int* argument1, __global int* argument2, __glo
 	
 	//short calculation: work Item Number x argument 1 + argument 2
 	//TODO: perform the required calculation
+
+	//
+        output[workItemNum] = workItemNum*(arg1)+(arg2);
+ 
 	printf("Hello World\n");
 
 	//TODO: print the work item, work group and arguments
+	
+	printf("Hi from work item: %-3d work gorup: %-2d Arg1: %-5d Arg2: %-5d Output: %d \n", workItemNum,workGroupNum,arg1,arg2,output[workItemNum]);
+
+        //}
 	/*
 	Expected Output:
 	Hi from work item: 0 	 work group:0 	 Arg1: 10 	 Arg2: 20 	 Output: 20 
@@ -41,7 +49,28 @@ __kernel void HelloWorld(__global int* argument1, __global int* argument2, __glo
 	//adding the outputs for each group---------------------------------------------
 	int groupValue = 0;
 	//TODO: Add all the work items in each work group and output the work groups total 
-	//Expected output:
+	
+	//printf("\n");
+	
+       if (localGroupID == 0) //for each local group this runs as a thread
+{
+ 
+	 int j = get_local_size(0); //get size of work - item , don't assume it is 4
+	 int i = 0;
+
+	 while (i<j)
+	{
+	  groupValue = groupValue + output[workItemNum+i];
+	  i = i+1;
+        }
+
+        printf("groupValue: %-4d Work item: %-3d Work group: %1d\n", groupValue, workItemNum ,workGroupNum);
+
+ 	
+}	
+	
+	
+	
 	//groupValue: 300 	 Work item:4 	 Work group: 1 
 	//groupValue: 620 	 Work item:12 	 Work group: 3 
 	//groupValue: 140 	 Work item:0 	 Work group: 0 
